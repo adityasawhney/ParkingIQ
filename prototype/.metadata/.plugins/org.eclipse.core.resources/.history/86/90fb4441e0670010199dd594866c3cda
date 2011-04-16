@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="fill_parent" android:layout_height="fill_parent" android:id="@+id/linearLayout1" android:orientation="vertical">
+        <TextView android:layout_width="wrap_content" android:id="@+id/txtTime" android:text="Result Here" android:layout_height="wrap_content" android:layout_gravity="center" android:layout_marginTop="100dip"></TextView>
+        <Button android:id="@+id/button1" android:text="Button" android:layout_height="wrap_content" android:layout_width="wrap_content" android:layout_gravity="center" android:layout_margin="30dip"></Button>
+    </LinearLayout>
+
+<LinearLayout 	xmlns:android="http://schemas.android.com/apk/res/android" 
+				android:orientation="vertical" 
+				android:layout_width="fill_parent" 
+				android:layout_height="fill_parent" 
+				android:layout_gravity="center|center_vertical" 
+				android:gravity="center_vertical">
+	<TextView 	android:id="@+id/txtTime" 
+				android:layout_width="wrap_content" 
+				android:layout_height="wrap_content" 
+				android:text="Result Here" 
+				android:layout_gravity="center_horizontal">
+	    <Button 	android:id="@+id/btnCallWebService" 
+	    			android:layout_width="wrap_content" 
+	    			android:layout_height="wrap_content" 
+	    			android:text="Call REST Service" 
+	    			android:layout_gravity="center_horizontal">
+		</Button>
+	</TextView>
+</LinearLayout>

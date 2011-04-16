@@ -1,0 +1,10 @@
+package com.cc;
+
+import me.prettyprint.hector.api.factory.*;
+
+public class CassandraClient {
+
+	public static void main(String[] args) {
+		HFactory 
+	}
+}

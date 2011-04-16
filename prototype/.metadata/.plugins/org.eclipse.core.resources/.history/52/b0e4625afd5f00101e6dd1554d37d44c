@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mule xmlns="http://www.mulesoft.org/schema/mule/core"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:jersey="http://www.mulesoft.org/schema/mule/jersey"
+    xsi:schemaLocation="
+       http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/3.1/mule.xsd
+       http://www.mulesoft.org/schema/mule/jersey http://www.mulesoft.org/schema/mule/jersey/3.1/mule-jersey.xsd">
+	<flow name="HelloWorldResource">
+	        <inbound-endpoint address="http://localhost/helloworld"/>
+	        <jersey:resources>
+	            <component class="HelloWorldResource" />
+	        </jersey:resources>
+	    </flow>
+
+
+</mule>

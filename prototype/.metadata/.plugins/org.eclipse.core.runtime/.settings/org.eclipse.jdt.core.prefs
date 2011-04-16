@@ -1,0 +1,10 @@
+#Sat Apr 16 11:22:53 EDT 2011
+org.eclipse.jdt.core.compiler.compliance=1.6
+org.eclipse.jdt.core.compiler.codegen.targetPlatform=1.6
+org.eclipse.jdt.core.compiler.problem.enumIdentifier=error
+org.eclipse.jdt.core.codeComplete.visibilityCheck=enabled
+eclipse.preferences.version=1
+org.eclipse.jdt.core.compiler.codegen.inlineJsrBytecode=enabled
+org.eclipse.jdt.core.userLibrary.Hector=<?xml version\="1.0" encoding\="UTF-8"?>\n<userlibrary systemlibrary\="false" version\="1">\n\t<archive path\="/home/piq/ParkingIQ/hector-core-0.7.0-28/cassandra-all-0.7.0.jar"/>\n\t<archive path\="/home/piq/ParkingIQ/hector-core-0.7.0-28/cassandra-javautils-0.7.0.jar"/>\n\t<archive path\="/home/piq/ParkingIQ/hector-core-0.7.0-28/commons-lang-2.4.jar"/>\n\t<archive path\="/home/piq/ParkingIQ/hector-core-0.7.0-28/commons-pool-1.5.3.jar"/>\n\t<archive path\="/home/piq/ParkingIQ/hector-core-0.7.0-28/FastInfoset-1.2.2.jar"/>\n\t<archive path\="/home/piq/ParkingIQ/hector-core-0.7.0-28/hector-core-0.7.0-28.jar"/>\n\t<archive path\="/home/piq/ParkingIQ/hector-core-0.7.0-28/hector-core-0.7.0-28-sources.jar"/>\n\t<archive path\="/home/piq/ParkingIQ/hector-core-0.7.0-28/high-scale-lib-1.1.1.jar"/>\n\t<archive path\="/home/piq/ParkingIQ/hector-core-0.7.0-28/jul-to-slf4j-1.6.1.jar"/>\n\t<archive path\="/home/piq/ParkingIQ/hector-core-0.7.0-28/libthrift-0.5.0.jar"/>\n\t<archive path\="/home/piq/ParkingIQ/hector-core-0.7.0-28/perf4j-0.9.12.jar"/>\n\t<archive path\="/home/piq/ParkingIQ/hector-core-0.7.0-28/slf4j-api-1.6.1.jar"/>\n\t<archive path\="/home/piq/ParkingIQ/hector-core-0.7.0-28/uuid-3.2.0.jar"/>\n</userlibrary>\n
+org.eclipse.jdt.core.compiler.source=1.6
+org.eclipse.jdt.core.compiler.problem.assertIdentifier=error

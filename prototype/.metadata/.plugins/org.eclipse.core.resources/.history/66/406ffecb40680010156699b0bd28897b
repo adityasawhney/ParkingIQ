@@ -1,0 +1,8 @@
+package com.cc;
+
+public class CassandraClient {
+
+	public static void main(String[] args) {
+
+	}
+}

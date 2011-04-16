@@ -1,0 +1,56 @@
+package com.example.helloandroid;
+
+import android.app.Activity;
+import android.os.Bundle;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
+import android.widget.TextView;
+
+public class HelloAndroid extends Activity {
+    /** Called when the activity is first created. */
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.main);
+     // keep the handle to the textview for later
+		this.txtTime = (TextView) findViewById(R.id.txtTime);
+
+		// add a click event handler for the button
+		final Button btnCallWebService = (Button) findViewById(R.id.btnCallWebService);
+		btnCallWebService.setOnClickListener(new OnClickListener() {
+
+			public void onClick(View v) {
+
+				CallWebServiceTask task = new CallWebServiceTask();
+				task.applicationContext = Start.this;
+				task.execute();
+			}
+		});
+    }
+    
+    public class CallWebServiceTask extends AsyncTask {
+		private ProgressDialog dialog;
+		protected Context applicationContext;
+
+		@Override
+		protected void onPreExecute() {
+			this.dialog = ProgressDialog.show(applicationContext, "Calling", "Time Service...", true);
+		}
+
+		@Override
+		protected String doInBackground(Void... params) {
+
+			return Start.getTimeStampFromYahooService();
+
+		}
+
+		@Override
+		protected void onPostExecute(String result) {
+			this.dialog.cancel();
+			String timestamp = Start.parseJSONResponse(result);
+			timestamp = Start.UnixTimeStampToDateTime(timestamp);
+			Start.this.getTxtTime().setText(timestamp);
+		}
+	}
+}
