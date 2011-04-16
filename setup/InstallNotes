@@ -1,0 +1,121 @@
+Compatibility Matrix
+********************
+android-sdk-linux_x86
+apache-cassandra-0.7.4
+hadoop-0.21.0
+hector-core-0.7.0-28
+mule-standalone-3.1.1
+
+Mule Installation
+******************
+1. Install Java 6 (https://help.ubuntu.com/community/JavaInstallation)
+	apt-get install sun-java6-jdk
+2. Install Ant and Maven
+3. Install Eclipse Galileo
+4. Install Mule and Mule IDE: 
+   http://www.mulesoft.org/documentation/display/MULE3INTRO/Quick+Start
+5. Run Mule with following command:
+   	cd <MULE_HOME>
+   	bin/mule
+   Stop Mule with following command:
+	Ctrl+C
+6. Installing/Uninstalling application
+   - Make sure Mule is running
+   - To install an application simply put the package in 'apps' folder
+   - To uinstall an application delete the 'anchor' file in 'apps' folder
+7. Deploy Jersey
+   - Download the Mule Jersey transport distribution
+   - Put them in MULE_HOME/lib/user
+   - Follow the instructions to create a RESTful service
+	http://www.mulesoft.org/documentation/display/JERSEY/User%27s+Guide
+   - Download and install Xalan from
+	http://apache.cyberuse.com/xml/xalan-j/
+
+Cassandra Installation:
+***********************
+Follow the read me which comes with the install.
+1. Create the required directories
+  * cd apache-cassandra-$VERSION
+  * sudo mkdir -p /var/log/cassandra
+  * sudo chown -R `whoami` /var/log/cassandra
+  * sudo mkdir -p /var/lib/cassandra
+  * sudo chown -R `whoami` /var/lib/cassandra
+2. Set the JAVA_HOME in bin/cassandra.in.sh
+	JAVA_HOME=/usr/lib/jvm/java-6-sun
+3. Running cassandra
+	bin/cassandra -f
+   IMPORTANT - Sometimes it doesnt start and complains about VM memory being less.
+               Kill all the applications, start cassandra and then re-start other apps.
+4. Reading/writing to cassandra
+	* bin/cassandra-cli --host localhost
+  	* create keyspace Keyspace1;
+	* use Keyspace1;
+	* create column family Users with comparator=UTF8Type and default_validation_class=UTF8Type;
+  	* set Users[jsmith][first] = 'John';
+ 	* set Users[jsmith][last] = 'Smith';
+  	* set Users[jsmith][age] = long(42);
+  	* get Users[jsmith];
+5. Steps to install Hadoop in EC2 can be found at:
+	http://wiki.apache.org/cassandra/CloudConfig
+6. Steps to use Cassandra with Hadoop can be found at:
+	http://wiki.apache.org/cassandra/HadoopSupport
+
+Hadoop Installation
+*******************
+Follow the instructions specified in 
+http://hadoop.apache.org/common/docs/current/single_node_setup.html
+
+1. Edit the file conf/hadoop-env.sh to define at least JAVA_HOME
+	export JAVA_HOME=/usr/lib/jvm/java-6-sun
+2. Add the following to:
+   conf/core-site.xml
+	<configuration>
+	     <property>
+		 <name>fs.default.name</name>
+		 <value>hdfs://localhost:9000</value>
+	     </property>
+	</configuration>
+   conf/hdfs-site.xml:
+	<configuration>
+	     <property>
+		 <name>dfs.replication</name>
+		 <value>1</value>
+	     </property>
+	</configuration>
+
+   conf/mapred-site.xml:
+	<configuration>
+	     <property>
+		 <name>mapred.job.tracker</name>
+		 <value>localhost:9001</value>
+	     </property>
+	</configuration>
+3. Install ssh server
+	http://www.unixtutorial.org/2009/05/ubuntu-ssh-how-to-enable-secure-shell-in-ubuntu/
+   and set it up for paraphase logging
+	$ ssh-keygen -t dsa -P '' -f ~/.ssh/id_dsa
+	$ cat ~/.ssh/id_dsa.pub >> ~/.ssh/authorized_keys
+4.  Format a new distributed-filesystem:
+	$ bin/hadoop namenode -format
+5. Start/Stop the hadoop daemons:
+	$ bin/start-all.sh
+	$ bin/stop-all.sh 
+6. Browse the web interface for the NameNode and the JobTracker; by default they are available at:
+    * NameNode - http://localhost:50070/
+    * JobTracker - http://localhost:50030/
+
+Android SDK installations
+*************************
+Follow the instructions specified in
+http://developer.android.com/sdk/installing.html
+
+1. Install the ADT eclipse plugin, follow steps in
+	http://developer.android.com/sdk/eclipse-adt.html#installing
+2. Install additional SDK components using SDK manager from eclipse.
+3. Add the following to ~/.bashrc file
+	export PATH=${PATH}:~/ParkingIQ/android-sdk-linux_x86/tools:~/ParkingIQ/android-sdk-linux_x86/platform-tools
+4. Follow the hello world tutorial to get going
+	http://developer.android.com/resources/tutorials/hello-world.html
+5. For more advanced tutorial or next level, follow the notepad tutorial
+	http://developer.android.com/resources/tutorials/notepad/index.html
+	
