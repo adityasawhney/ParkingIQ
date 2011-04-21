@@ -38,7 +38,7 @@ use ParkingIQ;
         }
     }
 */
-create column family ParkingLot with column_type = 'Standard' and comparator = 'IntegerType' and comment='Table for static information of parking lots';
+create column family ParkingLot with column_type = 'Standard' and comparator = 'BytesType' and comment='Table for static information of parking lots';
 
 /*
     ColumnFamily: LotsByZoneId
