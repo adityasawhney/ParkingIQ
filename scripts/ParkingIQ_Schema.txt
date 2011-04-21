@@ -1,0 +1,152 @@
+/**
+** ParkingIQ Cassandra schema configuration.
+**
+** (c) 2011 Aditya Sawhney
+** This code may be freely used and modified for any purpose. 
+**/
+
+/* Create ParkingIQ keyspace */
+create keyspace ParkingIQ with replication_factor = 3 and placement_strategy = 'org.apache.cassandra.locator.SimpleStrategy';
+
+/* Switch to ParkingIQ keyspace */
+use ParkingIQ;
+
+/* Create all the column families */
+
+/*
+    ColumnFamily: ParkingLot
+    We'll store all the static information related to parking lots here.
+
+    Row Key => lot id (implies lot id must be unique)
+    Column Name: an attribute for the lot (name, type, location, zoneid, etc)
+    Column Value: value of the associated attribute
+
+    Use case: get parking lot details (esp. location) by id (aka grab all columns from a specific Row)
+
+    ParkingLot : { // CF
+        146 : { // row key
+            // and the columns as "lot" attributes
+            name: EngCntr_EastBlock,
+            type: ADA,
+            latitude: 104.45,
+            longitude: 80.03,
+	    zone: 11,
+        },
+        // and the other lots
+        147: {
+            ...
+        }
+    }
+*/
+create column family ParkingLot with column_type = 'Standard' and comparator = 'IntegerType' and comment='Table for static information of parking lots';
+
+/*
+    ColumnFamily: LotsByZoneId
+    We store all the mapping of lots to zones per locality range here.
+
+    Row key => zone id
+    SuperColumn name: locality range (in miles)
+    Column Name: parking lot id
+    Column Value: NIL (unused for now)
+    
+    Access: get all the parking lots in given zone for given locality range
+
+    LotsByZoneId : {
+        // parking lots in zone 11
+        11 : { // row key = zone id
+            5 : { // SC Name
+                // all parking lots within 5 miles radius
+                151: -,
+                123: -,
+                148: -,
+            },
+
+            ... more locality ranges
+
+            25 : {
+                251: -,
+                223: -,
+                248: -,
+            },
+        },
+
+        // parking lots in zone 13
+        13 : {
+            5 : { // SC Name
+                // all parking lots within 5 miles radius
+                157: -,
+                163: -,
+                192: -,
+            },
+        }
+
+        ..
+        // then more Super CF's for the other entries
+    }
+*/
+create column family LotsByZoneId with column_type = 'Super' and comparator = 'IntegerType' and subcomparator='IntegerType' and comment='Zone to lots per locality mapping table';
+
+/*
+    ColumnFamily: LotStatusArchive
+    We'll store all the historical status (number of available spaces etc) of the parking lots here.
+
+    Row Key => lot id (implies lot id must be unique)
+    Column Name: the timestamp of the value (TimeUUIDType format)
+    Column Value: count of available spaces
+
+    Use case: get the currently available spaces for given lot
+	      mine the data-set to generate quarterly analysis report
+
+    LotStatusArchive : { // CF
+        146 : { // row key
+            // and the columns are the available spots at given time
+            timeuuid_1: 3,
+            timeuuid_2: 2,
+            timeuuid_3: 1,
+        },
+        // and the other lots
+        147: {
+            ...
+        }
+    }
+*/
+create column family LotStatusArchive with column_type = 'Standard' and comparator = 'TimeUUIDType' and comment='Archive of historical statuses of parking lots';
+
+/*
+    ColumnFamily: QuarterlyAnalysis
+    We store all the quarterly analysis reports here.
+
+    Row key => quarter (like fall_2010)
+    SuperColumn name: parking lot id
+    Column Name: combination of day of the week and session (like monday_morning)
+    Column Value: average number of available spaces
+    
+    Access: get the analysis report for given quarter
+
+    QuarterlyAnalysis : {
+        // quarterly report for fall_2010
+        fall_2010 : { // row key = quarter
+            146 : { // SC Name
+                // available lots per day_session
+                monday_morning: 3,
+                monday_afternoon: 2,
+                monday_evening: 1,
+		tuesday_morning: 5,
+            },
+
+            ... more lots
+
+            147 : {
+                monday_morning: 2,
+                monday_afternoon: 5,
+                monday_evening: 1,
+		tuesday_morning: 6,
+            },
+        },
+
+        ..
+        // then more Super CF's for the other entries
+    }
+*/
+create column family QuarterlyAnalysis with column_type = 'Super' and comparator = 'IntegerType' and subcomparator='UTF8Type' and comment='Quarterly analysis reports of parking lots';
+
