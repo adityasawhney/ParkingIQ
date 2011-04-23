@@ -1,0 +1,15 @@
+/**
+** ParkingIQ Cassandra script to populate LotStatusArchive column family.
+**
+** (c) 2011 Aditya Sawhney
+** This code may be freely used and modified for any purpose. 
+**/
+
+/* Switch to ParkingIQ keyspace */
+use ParkingIQ;
+
+/* Populate the parking lot data set */
+set LotStatusArchive['201']['473f3000-ac64-1a2e-c000-000000000000'] = '1';
+set LotStatusArchive['201']['dbfd3000-09a1-1a32-c000-000000000000'] = '2';
+set LotStatusArchive['201']['63367000-ead0-1a30-c000-000000000000'] = '3';
+
