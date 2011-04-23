@@ -6,7 +6,7 @@
 **/
 
 /* Create ParkingIQ keyspace */
-create keyspace ParkingIQ with replication_factor = 3 and placement_strategy = 'org.apache.cassandra.locator.SimpleStrategy';
+create keyspace ParkingIQ with replication_factor = 1 and placement_strategy = 'org.apache.cassandra.locator.SimpleStrategy';
 
 /* Switch to ParkingIQ keyspace */
 use ParkingIQ;
@@ -30,7 +30,7 @@ use ParkingIQ;
             type: ADA,
             latitude: 104.45,
             longitude: 80.03,
-	    zone: 11,
+        zone: 11,
         },
         // and the other lots
         147: {
@@ -38,7 +38,17 @@ use ParkingIQ;
         }
     }
 */
-create column family ParkingLot with column_type = 'Standard' and comparator = 'BytesType' and comment='Table for static information of parking lots';
+create column family ParkingLot with 
+    column_type = Standard and 
+    comparator = UTF8Type and 
+    comment = 'Table for static information of parking lots' and
+    column_metadata = 
+    [ 
+        { column_name: type, validation_class: UTF8Type }, 
+        { column_name: latitude, validation_class: UTF8Type }, 
+        { column_name: longitude, validation_class: UTF8Type }, 
+        { column_name: zoneid, validation_class: UTF8Type, index_type: KEYS } 
+    ];
 
 /*
     ColumnFamily: LotsByZoneId
@@ -84,7 +94,11 @@ create column family ParkingLot with column_type = 'Standard' and comparator = '
         // then more Super CF's for the other entries
     }
 */
-create column family LotsByZoneId with column_type = 'Super' and comparator = 'IntegerType' and subcomparator='IntegerType' and comment='Zone to lots per locality mapping table';
+create column family LotsByZoneId with
+    column_type = Super and 
+    comparator = IntegerType and 
+    subcomparator = IntegerType and 
+    comment='Zone to lots per locality mapping table';
 
 /*
     ColumnFamily: LotStatusArchive
@@ -95,7 +109,7 @@ create column family LotsByZoneId with column_type = 'Super' and comparator = 'I
     Column Value: count of available spaces
 
     Use case: get the currently available spaces for given lot
-	      mine the data-set to generate quarterly analysis report
+          mine the data-set to generate quarterly analysis report
 
     LotStatusArchive : { // CF
         146 : { // row key
@@ -110,7 +124,10 @@ create column family LotsByZoneId with column_type = 'Super' and comparator = 'I
         }
     }
 */
-create column family LotStatusArchive with column_type = 'Standard' and comparator = 'TimeUUIDType' and comment='Archive of historical statuses of parking lots';
+create column family LotStatusArchive with 
+    column_type = Standard and 
+    comparator = TimeUUIDType and 
+    comment='Archive of historical statuses of parking lots';
 
 /*
     ColumnFamily: QuarterlyAnalysis
@@ -131,7 +148,7 @@ create column family LotStatusArchive with column_type = 'Standard' and comparat
                 monday_morning: 3,
                 monday_afternoon: 2,
                 monday_evening: 1,
-		tuesday_morning: 5,
+        tuesday_morning: 5,
             },
 
             ... more lots
@@ -140,7 +157,7 @@ create column family LotStatusArchive with column_type = 'Standard' and comparat
                 monday_morning: 2,
                 monday_afternoon: 5,
                 monday_evening: 1,
-		tuesday_morning: 6,
+        tuesday_morning: 6,
             },
         },
 
@@ -148,5 +165,9 @@ create column family LotStatusArchive with column_type = 'Standard' and comparat
         // then more Super CF's for the other entries
     }
 */
-create column family QuarterlyAnalysis with column_type = 'Super' and comparator = 'IntegerType' and subcomparator='UTF8Type' and comment='Quarterly analysis reports of parking lots';
+create column family QuarterlyAnalysis with
+    column_type = Super and 
+    comparator = IntegerType and 
+    subcomparator = UTF8Type and 
+    comment='Quarterly analysis reports of parking lots';
 
