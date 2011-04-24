@@ -6,30 +6,35 @@ hadoop-0.21.0
 hector-core-0.7.0-28
 mule-standalone-3.1.1
 
-Mule Installation
-******************
+TIPS
+******
+1. ~/.bashrc is the file for all the environment variables
+
+Pre-requisite
+**************
 1. Install Java 6 (https://help.ubuntu.com/community/JavaInstallation)
 	apt-get install sun-java6-jdk
 2. Install Ant and Maven
 3. Install Eclipse Galileo
-4. Install Mule and Mule IDE: 
+
+Mule Installation
+******************
+1. Install Mule and Mule IDE: 
    http://www.mulesoft.org/documentation/display/MULE3INTRO/Quick+Start
-5. Run Mule with following command:
+2. Deploy jackson-xc
+   - Download the latest from http://snapshots.repository.codehaus.org/org/codehaus/jackson/jackson-xc/1.7.0-SNAPSHOT/
+   - Put it in <MULE_HOME>/lib/user folder
+3. Deploy Hector.
+   - Copy the Hector jars to <mule_home>/lib/user folder
+4. Run Mule with following command:
    	cd <MULE_HOME>
    	bin/mule
    Stop Mule with following command:
 	Ctrl+C
-6. Installing/Uninstalling application
+5. Installing/Uninstalling application
    - Make sure Mule is running
    - To install an application simply put the package in 'apps' folder
    - To uinstall an application delete the 'anchor' file in 'apps' folder
-7. Deploy Jersey
-   - Download the Mule Jersey transport distribution
-   - Put them in MULE_HOME/lib/user
-   - Follow the instructions to create a RESTful service
-	http://www.mulesoft.org/documentation/display/JERSEY/User%27s+Guide
-   - Download and install Xalan from
-	http://apache.cyberuse.com/xml/xalan-j/
 
 Cassandra Installation:
 ***********************
@@ -59,6 +64,8 @@ Follow the read me which comes with the install.
 	http://wiki.apache.org/cassandra/CloudConfig
 6. Steps to use Cassandra with Hadoop can be found at:
 	http://wiki.apache.org/cassandra/HadoopSupport
+7. Use following command to run the script files:
+	$ bin/cassandra-cli --host localhost --batch < ParkingIQ_Schema.txt
 
 Hadoop Installation
 *******************
@@ -118,4 +125,15 @@ http://developer.android.com/sdk/installing.html
 	http://developer.android.com/resources/tutorials/hello-world.html
 5. For more advanced tutorial or next level, follow the notepad tutorial
 	http://developer.android.com/resources/tutorials/notepad/index.html
-	
+
+Amazon AWS
+************
+1. Inorder to work with the amazon tools set the timezone to be same as that of
+   amazon region like in case of east region set it to Eastern Time.
+2. AMI instance for ubuntu 10.10 are:
+	64-bit 	ebs	 ami-cef405a7
+	64-bit	instance ami-08f40561
+	32-bit  ebs	 ami-ccf405a5
+	32-bit  instance ami-a6f504cf
+3. Inorder to ssh to the AMI use the following:
+	ssh -i /home/piq/ParkingIQ/Documents/private/keypair/kp-piq.pem ubuntu@ec2-75-101-199-249.compute-1.amazonaws.com 
