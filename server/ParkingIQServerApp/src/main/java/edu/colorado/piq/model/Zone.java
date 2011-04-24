@@ -33,6 +33,10 @@ public class Zone {
 		return zoneId;
 	}
 	
+	public boolean isValid() {
+		return this.zoneId != null && this.zoneId.length() > 0;
+	}
+	
 	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */

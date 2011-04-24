@@ -63,8 +63,8 @@ public class ParkingLotResource {
 	@GET
     @Produces("application/json")
     public List<ParkingLotInfo> handleGetRequest(
-    		@DefaultValue("0") @QueryParam(Const.Param.LATITUDE) int latitude,
-    		@DefaultValue("0") @QueryParam(Const.Param.LONGITUDE) int longitude) {
+    		@DefaultValue("0.0") @QueryParam(Const.Param.LATITUDE) float latitude,
+    		@DefaultValue("0.0") @QueryParam(Const.Param.LONGITUDE) float longitude) {
 		GeoPoint location = new GeoPoint(latitude, longitude);
 
 		// Figure out the zone to which the given belongs

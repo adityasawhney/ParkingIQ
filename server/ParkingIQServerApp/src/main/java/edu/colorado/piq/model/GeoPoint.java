@@ -13,10 +13,10 @@ package edu.colorado.piq.model;
 public class GeoPoint {
 	
 	/** The latitude. */
-	private int latitude;
+	private float latitude;
 	
 	/** The longitude. */
-	private int longitude;
+	private float longitude;
 	
 	/**
 	 * Instantiates a new geo point.
@@ -24,7 +24,7 @@ public class GeoPoint {
 	 * @param latitude the latitude
 	 * @param longitude the longitude
 	 */
-	public GeoPoint(int latitude, int longitude) {
+	public GeoPoint(float latitude, float longitude) {
 		this.latitude = latitude;
 		this.longitude = longitude;
 	}
@@ -34,7 +34,7 @@ public class GeoPoint {
 	 *
 	 * @return the latitude
 	 */
-	public int getLatitude() {
+	public float getLatitude() {
 		return latitude;
 	}
 
@@ -43,10 +43,22 @@ public class GeoPoint {
 	 *
 	 * @return the longitude
 	 */
-	public int getLongitude() {
+	public float getLongitude() {
 		return longitude;
 	}
 	
+	public boolean isValid() {
+		return isValidLatitude() && isValidLongitude();
+	}
+
+	public boolean isValidLatitude() {
+		return (this.getLatitude() >= -90.0 && this.getLatitude() <= 90.0);
+	}
+
+	public boolean isValidLongitude() {
+		return (this.getLongitude() >= -180.0 && this.getLongitude() <= 180.0);
+	}
+
 	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */

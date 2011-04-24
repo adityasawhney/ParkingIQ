@@ -44,6 +44,10 @@ public class ParkingLotInfoServiceImpl implements ParkingLotInfoService {
 	 */
 	public List<ParkingLotInfo> getParklingLotInfo(Zone zone) {
 		List<ParkingLotInfo> lotInfos = new LinkedList<ParkingLotInfo>();
+
+		// Return empty list if zone is invalid
+		if (!zone.isValid()) return lotInfos;
+
 		Keyspace keyspace = CassandraUtil.Connect(cassandraConfig);
 		StringSerializer stringSerializer = StringSerializer.get();
 		

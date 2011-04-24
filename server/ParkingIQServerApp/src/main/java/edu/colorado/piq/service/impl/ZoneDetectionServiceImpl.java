@@ -18,8 +18,14 @@ public class ZoneDetectionServiceImpl implements ZoneDetectionService {
 	/* (non-Javadoc)
 	 * @see edu.colorado.piq.service.ZoneDetectionService#identifyZone(edu.colorado.piq.model.GeoPoint)
 	 */
-	public Zone identifyZone(GeoPoint location) {
-		// TODO Code for this will come from Akash
-		return new Zone("40001_-105263"); // 40001_-105263(>1) 40005_-105270(=1)
+	public Zone identifyZone(GeoPoint currentCoord) {
+		String zoneId = null;
+
+		if (currentCoord.isValid()) {
+            float lat = currentCoord.getLatitude()  * 1000;
+            float lng = currentCoord.getLongitude() * 1000;
+			zoneId = String.format("%1f_%2f", lat, lng);
+		}
+		return new Zone(zoneId); // 40001_-105263(>1) 40005_-105270(=1)
 	}
 }
