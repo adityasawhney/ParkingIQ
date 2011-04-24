@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mule xmlns="http://www.mulesoft.org/schema/mule/core"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xmlns:https="http://www.mulesoft.org/schema/mule/https"
+      xmlns:http="http://www.mulesoft.org/schema/mule/http"
+      xmlns:spring="http://www.springframework.org/schema/beans"
+      xmlns:context="http://www.springframework.org/schema/context"
+      xmlns:json="http://www.mulesoft.org/schema/mule/json"
+      xmlns:jersey="http://www.mulesoft.org/schema/mule/jersey"
+      xsi:schemaLocation="
+      	  http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+      	  http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+          http://www.mulesoft.org/schema/mule/https http://www.mulesoft.org/schema/mule/https/3.1/mule-https.xsd
+          http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/3.1/mule-http.xsd
+          http://www.mulesoft.org/schema/mule/json http://www.mulesoft.org/schema/mule/json/3.1/mule-json.xsd
+          http://www.mulesoft.org/schema/mule/jersey http://www.mulesoft.org/schema/mule/jersey/3.1/mule-jersey.xsd
+          http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/3.1/mule.xsd">
+
+	<!-- All variable/configurable parameters should come from properties file -->
+	<context:property-placeholder location="classpath:parkingiq.properties" />
+
+	<spring:beans>
+		<!-- Cassandra configuration object constructed from properties -->
+		<spring:bean id="cassandraConfig" class="edu.colorado.piq.model.CassandraConfig">
+			<spring:constructor-arg index="0" value="${cassandra-host}"/>
+			<spring:constructor-arg index="1" value="${cassandra-port}"/>
+			<spring:constructor-arg index="2" value="${cassandra-cluster}"/>
+			<spring:constructor-arg index="3" value="${cassandra-keyspace}"/>
+		</spring:bean>
+	
+		<!-- Configure all the service beans here -->
+		<spring:bean id="zoneDetectionService" class="edu.colorado.piq.service.impl.ZoneDetectionServiceImpl" />
+
+		<spring:bean id="parkingLotInfoService" class="edu.colorado.piq.service.impl.ParkingLotInfoServiceImpl">
+			<spring:constructor-arg>
+				<spring:ref bean="cassandraConfig"/>
+			</spring:constructor-arg>
+		</spring:bean>
+
+		<spring:bean id="parkingLotStatusService" class="edu.colorado.piq.service.impl.ParkingLotStatusServiceImpl">
+			<spring:constructor-arg>
+				<spring:ref bean="cassandraConfig"/>
+			</spring:constructor-arg>
+		</spring:bean>
+		
+		<!-- Configure all the resource beans here -->
+
+		<!-- REST resource for Parking Lots -->
+		<spring:bean id="parkingLotResource" class="edu.colorado.piq.resource.ParkingLotResource">
+			<spring:constructor-arg index="0">
+				<spring:ref bean="zoneDetectionService"/>
+			</spring:constructor-arg>
+			<spring:constructor-arg index="1">
+				<spring:ref bean="parkingLotInfoService"/>
+			</spring:constructor-arg>
+			<spring:constructor-arg index="2">
+				<spring:ref bean="parkingLotStatusService"/>
+			</spring:constructor-arg>
+	    </spring:bean>
+	</spring:beans>
+
+	<!-- REST based flow configuration -->
+	<flow name="ParkingIQRestService">
+    	<inbound-endpoint address="http://localhost:${port}"/>
+     	<jersey:resources>
+         	<component>
+         		<spring-object bean="parkingLotResource"/>
+         	</component>
+     	</jersey:resources>
+  	</flow> 
+</mule>
