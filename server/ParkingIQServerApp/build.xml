@@ -7,6 +7,7 @@
 
 <project name="ParkingIQServerApp" default="package" basedir=".">
 
+	<property name="MULE_HOME" value="/home/piq/ParkingIQ/mule-standalone-3.1.1"/>
     <property name="app.name" value="parking-iq"/>
     <property environment="env"/>
 
@@ -78,7 +79,7 @@
     </target>
 
     <target name="set-paths">
-        <property name="dir.mule.home" value="/home/piq/ParkingIQ/mule-standalone-3.1.1"/>
+        <property name="dir.mule.home" value="${MULE_HOME}"/>
         <property name="dir.user.lib" value="${dir.mule.home}/lib/user/"/>
     </target>
 
