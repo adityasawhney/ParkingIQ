@@ -7,7 +7,7 @@
 
 <project name="ParkingIQServerApp" default="package" basedir=".">
 
-	<property name="MULE_HOME" value="/home/piq/ParkingIQ/mule-standalone-3.1.1"/>
+	<property name="MULE_HOME" value="${user.home}/ParkingIQ/mule-standalone-3.1.1"/>
     <property name="app.name" value="parking-iq"/>
     <property environment="env"/>
 

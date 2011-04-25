@@ -6,7 +6,7 @@
  */
 package edu.colorado.piq.service.impl;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import me.prettyprint.cassandra.serializers.StringSerializer;
@@ -44,7 +44,7 @@ public class ParkingLotStatusServiceImpl implements ParkingLotStatusService {
 	public void updateParkingLotStatus(List<ParkingLotInfo> parkingLots) {
 		Keyspace keyspace = CassandraUtil.Connect(cassandraConfig);
 		StringSerializer stringSerializer = StringSerializer.get();
-		List<String> keyRange = compileKeyRanges(parkingLots);
+		HashMap<String, ParkingLotInfo> parkingLotInfoMap = createParkingLotInfoMap(parkingLots);
 		
 		// Get the last column as it represents the current status.
 		// Note that the columns are in format:
@@ -57,7 +57,7 @@ public class ParkingLotStatusServiceImpl implements ParkingLotStatusService {
 				stringSerializer)
 			.setColumnFamily(CF_LotStatusArchive.NAME)
 			// The rows for which to fetch columns
-			.setKeys(keyRange)
+			.setKeys(parkingLotInfoMap.keySet())
 			// Get the columns in reverse order and get only one column
 			.setRange("", "", true, 1)
 			.execute();
@@ -65,8 +65,8 @@ public class ParkingLotStatusServiceImpl implements ParkingLotStatusService {
 		// Update the status in the provided structure
 		for (Row<String, String, String> row : result.get()) {
 			if (!row.getColumnSlice().getColumns().isEmpty()) {
-				String availableSpaceStr = row.getColumnSlice().getColumns().get(0).getValue();
-				parkingLots.get(0).setAvailableSpace(Integer.parseInt(availableSpaceStr));
+				int availableSpace = Integer.parseInt(row.getColumnSlice().getColumns().get(0).getValue());
+				parkingLotInfoMap.get(row.getKey()).setAvailableSpace(availableSpace);
 			}
 			else {
 				System.out.println(String.format("No data found for key %1s", row.getKey()));
@@ -80,11 +80,12 @@ public class ParkingLotStatusServiceImpl implements ParkingLotStatusService {
 	 * @param parkingLots the parking lots
 	 * @return the list
 	 */
-	private List<String> compileKeyRanges(List<ParkingLotInfo> parkingLots) {
-		List<String> keyRanges = new ArrayList<String>(parkingLots.size());
+	private HashMap<String, ParkingLotInfo> createParkingLotInfoMap(List<ParkingLotInfo> parkingLots) {
+		HashMap<String, ParkingLotInfo> keyRanges = new HashMap<String, ParkingLotInfo>(parkingLots.size());
 		
 		for (ParkingLotInfo lotInfo : parkingLots) {
-			keyRanges.add(Integer.toString(lotInfo.getLotId()));
+			String lotId = Integer.toString(lotInfo.getLotId());
+			keyRanges.put(lotId, lotInfo);
 		}
 		return keyRanges;
 	}
