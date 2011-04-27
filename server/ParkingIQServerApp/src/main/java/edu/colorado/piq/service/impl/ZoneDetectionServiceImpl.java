@@ -22,8 +22,8 @@ public class ZoneDetectionServiceImpl implements ZoneDetectionService {
 		String zoneId = null;
 
 		if (currentCoord.isValid()) {
-            int lat = (int)(currentCoord.getLatitude()  * 1000.0);
-            int lng = (int)(currentCoord.getLongitude() * 1000.0);
+            int lat = (int)(currentCoord.getLatitude()  * 100.0);
+            int lng = (int)(currentCoord.getLongitude() * 100.0);
 			zoneId = String.format("%1d_%2d", lat, lng);
 		}
 		return new Zone(zoneId); // 40001_-105263(>1) 40005_-105270(=1)

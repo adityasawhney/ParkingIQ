@@ -62,7 +62,7 @@ public class ParkingLotResource {
 	 */
 	@GET
     @Produces("application/json")
-    public List<ParkingLotInfo> handleGetRequest(
+    public List<ParkingLotInfo> getParkingLots(
     		@DefaultValue("0.0") @QueryParam(Const.Param.LATITUDE) float latitude,
     		@DefaultValue("0.0") @QueryParam(Const.Param.LONGITUDE) float longitude) {
 		GeoPoint location = new GeoPoint(latitude, longitude);

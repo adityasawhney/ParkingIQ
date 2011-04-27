@@ -42,6 +42,12 @@
 				<spring:ref bean="cassandraConfig"/>
 			</spring:constructor-arg>
 		</spring:bean>
+
+		<spring:bean id="parkingLotReportService" class="edu.colorado.piq.service.impl.ParkingLotReportServiceImpl">
+			<spring:constructor-arg>
+				<spring:ref bean="cassandraConfig"/>
+			</spring:constructor-arg>
+		</spring:bean>
 		
 		<!-- Configure all the resource beans here -->
 
@@ -57,6 +63,12 @@
 				<spring:ref bean="parkingLotStatusService"/>
 			</spring:constructor-arg>
 	    </spring:bean>
+	    
+	    <spring:bean id="analysisReportResource" class="edu.colorado.piq.resource.AnalysisReportResource">
+			<spring:constructor-arg index="0">
+				<spring:ref bean="parkingLotReportService"/>
+			</spring:constructor-arg>
+	    </spring:bean>
 	</spring:beans>
 
 	<!-- REST based flow configuration -->
@@ -65,6 +77,7 @@
      	<jersey:resources>
          	<component>
          		<spring-object bean="parkingLotResource"/>
+         		<spring-object bean="analysisReportResource"/>
          	</component>
      	</jersey:resources>
   	</flow> 

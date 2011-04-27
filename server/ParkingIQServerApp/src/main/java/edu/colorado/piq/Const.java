@@ -21,6 +21,12 @@ public final class Const {
 		
 		/** Parameter LONGITUDE. */
 		public static final String LONGITUDE = "longitude";
+		
+		/** Parameter QUARTER. */
+		public static final String QUARTER = "quarter";
+		
+		/** Parameter LOTID */
+		public static final String LOT_ID = "lotid";
 	}
 	
 	/**
@@ -56,6 +62,13 @@ public final class Const {
 		 */
 		public final class CF_LotStatusArchive {
 			public static final String NAME = "LotStatusArchive";
+		}
+		
+		/**
+		 * 'QuarterlyAnalysis' super column family.
+		 */
+		public final class SCF_QuarterlyAnalysis {
+			public static final String NAME = "QuarterlyAnalysis";
 		}
 	}
 }
