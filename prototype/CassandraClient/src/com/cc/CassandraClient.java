@@ -2,10 +2,12 @@ package com.cc;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Random;
 import java.util.UUID;
 
 import me.prettyprint.cassandra.serializers.IntegerSerializer;
 import me.prettyprint.cassandra.serializers.StringSerializer;
+import me.prettyprint.cassandra.serializers.UUIDSerializer;
 import me.prettyprint.cassandra.service.CassandraHostConfigurator;
 import me.prettyprint.hector.api.Cluster;
 import me.prettyprint.hector.api.Keyspace;
@@ -20,11 +22,26 @@ public class CassandraClient {
 	private static StringSerializer serializer = StringSerializer.get();
 
 	public static void main(String[] args) {
-		List<ParkingLotInfo> lots = queryParkingLotInfo();
-		queryParkingLotStatus(lots);
+		simulateLotStatus();
+		//List<ParkingLotInfo> lots = queryParkingLotInfo();
+		//queryParkingLotStatus(lots);
 		//generateSomeTimeUUID();
 	}
 
+	private static void simulateLotStatus() {
+		final int[] lotIds = { 201, 205 };
+		Random random = new Random();
+		Cluster cluster = HFactory.getOrCreateCluster("Test Cluster", new CassandraHostConfigurator("localhost:9160"));
+		Keyspace keyspace = HFactory.createKeyspace("ParkingIQ", cluster);
+		Mutator<String> mutator = HFactory.createMutator(keyspace, StringSerializer.get());
+		UUID timeUUID = uuidForDate(new Date());
+		
+		for (int lotId : lotIds) {
+			HColumn<UUID, Integer> col = HFactory.createColumn(timeUUID, random.nextInt(6), UUIDSerializer.get(), IntegerSerializer.get());
+			mutator.insert(Integer.toString(lotId), "LotStatusArchive", col);
+		}
+	}
+	
 	private static List<ParkingLotInfo> queryParkingLotInfo() {
 		String zoneId = "40005_-105270";
 		ParkingLotInfoService service = new ParkingLotInfoService();
