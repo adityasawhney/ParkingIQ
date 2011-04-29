@@ -2,6 +2,9 @@ package edu.colorado.piq.model.report;
 
 import java.util.HashMap;
 
+import javax.xml.bind.annotation.XmlRootElement;
+
+@XmlRootElement
 public class QuarterReport {
 	private HashMap<Integer, DayReport> lotReport = new HashMap<Integer, DayReport>();
 	

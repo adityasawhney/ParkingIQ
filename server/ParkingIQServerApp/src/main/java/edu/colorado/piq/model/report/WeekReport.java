@@ -2,8 +2,11 @@ package edu.colorado.piq.model.report;
 
 import java.util.HashMap;
 
+import javax.xml.bind.annotation.XmlRootElement;
+
 import edu.colorado.piq.model.report.DayReport.Session;
 
+@XmlRootElement
 public class WeekReport {
 	private HashMap<Day, DayReport> weekReports = new HashMap<Day, DayReport>();
 
@@ -37,5 +40,9 @@ public class WeekReport {
 	
 	public HashMap<Day, DayReport> getWeekReports() {
 		return weekReports;
+	}
+
+	public void setWeekReports(HashMap<Day, DayReport> weekReports) {
+		this.weekReports = weekReports;
 	}
 }

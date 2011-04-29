@@ -77,7 +77,9 @@
      	<jersey:resources>
          	<component>
          		<spring-object bean="parkingLotResource"/>
-         		<spring-object bean="analysisReportResource"/>
+         	</component>
+         	<component>
+        		<spring-object bean="analysisReportResource"/>
          	</component>
      	</jersey:resources>
   	</flow> 

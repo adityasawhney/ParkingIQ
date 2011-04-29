@@ -55,4 +55,16 @@ public class DayReport {
 			this.eveningSpaceCount = spaceCount;
 		}
 	}
+
+	public void setMorningSpaceCount(int morningSpaceCount) {
+		this.morningSpaceCount = morningSpaceCount;
+	}
+
+	public void setAfternoonSpaceCount(int afternoonSpaceCount) {
+		this.afternoonSpaceCount = afternoonSpaceCount;
+	}
+
+	public void setEveningSpaceCount(int eveningSpaceCount) {
+		this.eveningSpaceCount = eveningSpaceCount;
+	}
 }
