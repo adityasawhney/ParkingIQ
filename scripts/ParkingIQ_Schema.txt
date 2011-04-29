@@ -30,7 +30,7 @@ use ParkingIQ;
             type: ADA,
             latitude: 104.45,
             longitude: 80.03,
-        zone: 11,
+	    zone: 11,
         },
         // and the other lots
         147: {
@@ -39,16 +39,16 @@ use ParkingIQ;
     }
 */
 create column family ParkingLot with 
-    column_type = Standard and 
-    comparator = UTF8Type and 
-    comment = 'Table for static information of parking lots' and
-    column_metadata = 
-    [ 
-        { column_name: type, validation_class: UTF8Type }, 
-        { column_name: latitude, validation_class: UTF8Type }, 
-        { column_name: longitude, validation_class: UTF8Type }, 
-        { column_name: zoneid, validation_class: UTF8Type, index_type: KEYS } 
-    ];
+	column_type = Standard and 
+	comparator = UTF8Type and 
+	comment = 'Table for static information of parking lots' and
+	column_metadata = 
+	[ 
+		{ column_name: type, validation_class: UTF8Type }, 
+		{ column_name: latitude, validation_class: UTF8Type }, 
+		{ column_name: longitude, validation_class: UTF8Type }, 
+		{ column_name: zoneid, validation_class: UTF8Type, index_type: KEYS } 
+	];
 
 /*
     ColumnFamily: LotsByZoneId
@@ -95,10 +95,10 @@ create column family ParkingLot with
     }
 */
 create column family LotsByZoneId with
-    column_type = Super and 
-    comparator = IntegerType and 
-    subcomparator = IntegerType and 
-    comment='Zone to lots per locality mapping table';
+	column_type = Super and 
+	comparator = IntegerType and 
+	subcomparator = IntegerType and 
+	comment='Zone to lots per locality mapping table';
 
 /*
     ColumnFamily: LotStatusArchive
@@ -109,7 +109,7 @@ create column family LotsByZoneId with
     Column Value: count of available spaces
 
     Use case: get the currently available spaces for given lot
-          mine the data-set to generate quarterly analysis report
+	      mine the data-set to generate quarterly analysis report
 
     LotStatusArchive : { // CF
         146 : { // row key
@@ -125,9 +125,9 @@ create column family LotsByZoneId with
     }
 */
 create column family LotStatusArchive with 
-    column_type = Standard and 
-    comparator = TimeUUIDType and 
-    comment='Archive of historical statuses of parking lots';
+	column_type = Standard and 
+	comparator = TimeUUIDType and 
+	comment='Archive of historical statuses of parking lots';
 
 /*
     ColumnFamily: QuarterlyAnalysis
@@ -148,7 +148,7 @@ create column family LotStatusArchive with
                 monday_morning: 3,
                 monday_afternoon: 2,
                 monday_evening: 1,
-        tuesday_morning: 5,
+		tuesday_morning: 5,
             },
 
             ... more lots
@@ -157,7 +157,7 @@ create column family LotStatusArchive with
                 monday_morning: 2,
                 monday_afternoon: 5,
                 monday_evening: 1,
-        tuesday_morning: 6,
+		tuesday_morning: 6,
             },
         },
 
@@ -166,8 +166,7 @@ create column family LotStatusArchive with
     }
 */
 create column family QuarterlyAnalysis with
-    column_type = Super and 
-    comparator = IntegerType and 
-    subcomparator = UTF8Type and 
-    comment='Quarterly analysis reports of parking lots';
-
+	column_type = Super and 
+	comparator = UTF8Type and 
+	subcomparator = UTF8Type and 
+	comment='Quarterly analysis reports of parking lots';
