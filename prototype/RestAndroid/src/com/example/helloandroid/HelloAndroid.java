@@ -13,6 +13,10 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
 
+
+import com.example.helloandroid.server.*;
+import com.example.helloandroid.task.*;
+
 public class HelloAndroid extends Activity {
 	private TextView txtTime = null;
 	
@@ -35,9 +39,11 @@ public class HelloAndroid extends Activity {
 			public void onClick(View v) {
 
 				//CallWebServiceTask task = new CallWebServiceTask();
-				CallMuleTask task = new CallMuleTask();
-				task.applicationContext = HelloAndroid.this;
-				task.execute("aditya");
+				//task.applicationContext = HelloAndroid.this;
+
+				final String piqServerUrl = "http://192.168.64.189:48000";
+				LocateParkingLotsTask task = new LocateParkingLotsTask(piqServerUrl);
+				task.execute("40.00561", "-105.2705");
 			}
 		});
     }
@@ -78,7 +84,7 @@ public class HelloAndroid extends Activity {
 		client.AddParam("output", "json");
 
 		try {
-			client.Execute(RequestMethod.GET);
+			client.Execute(RestClient.Method.GET);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -112,35 +118,4 @@ public class HelloAndroid extends Activity {
 			HelloAndroid.this.getTxtTime().setText(timestamp);
 		}
 	}
-    
-    public class CallMuleTask extends AsyncTask<String, Void, String> {
-		private ProgressDialog dialog;
-		protected Context applicationContext;
-
-		@Override
-		protected void onPreExecute() {
-			this.dialog = ProgressDialog.show(applicationContext, "Muling", "Contacting Mule...", true);
-		}
-
-		@Override
-		protected String doInBackground(String... params) {
-			String baseurlString = "http://192.168.64.152:8080/jersey/helloworld/" + params[0];
-			RestClient client = new RestClient(baseurlString);
-
-			try {
-				client.Execute(RequestMethod.GET);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-
-			return client.getResponse();
-		}
-
-		@Override
-		protected void onPostExecute(String result) {
-			this.dialog.cancel();
-			HelloAndroid.this.getTxtTime().setText(result);
-		}
-	}
-
 }

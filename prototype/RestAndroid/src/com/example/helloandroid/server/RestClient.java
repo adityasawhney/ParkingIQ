@@ -1,4 +1,4 @@
-package com.example.helloandroid;
+package com.example.helloandroid.server;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -22,16 +22,27 @@ import org.apache.http.protocol.HTTP;
 
 public class RestClient {
 
+	public enum Method {
+		GET, 
+		POST,
+		PUT,
+		DELETE
+	}
+	
     private ArrayList <NameValuePair> params;
     private ArrayList <NameValuePair> headers;
-
     private String url;
-
     private int responseCode;
     private String message;
-
     private String response;
 
+    public RestClient(String url)
+    {
+        this.url = url;
+        params = new ArrayList<NameValuePair>();
+        headers = new ArrayList<NameValuePair>();
+    }
+    
     public String getResponse() {
         return response;
     }
@@ -44,13 +55,6 @@ public class RestClient {
         return responseCode;
     }
 
-    public RestClient(String url)
-    {
-        this.url = url;
-        params = new ArrayList<NameValuePair>();
-        headers = new ArrayList<NameValuePair>();
-    }
-
     public void AddParam(String name, String value)
     {
         params.add(new BasicNameValuePair(name, value));
@@ -61,7 +65,7 @@ public class RestClient {
         headers.add(new BasicNameValuePair(name, value));
     }
 
-    public void Execute(RequestMethod method) throws Exception
+    public void Execute(Method method) throws Exception
     {
         switch(method) {
             case GET:
