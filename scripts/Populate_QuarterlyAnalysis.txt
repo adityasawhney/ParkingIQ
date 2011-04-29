@@ -1,0 +1,27 @@
+/**
+** ParkingIQ Cassandra script to populate QuarterlyAnalysis super column family.
+**
+** (c) 2011 Aditya Sawhney
+** This code may be freely used and modified for any purpose. 
+**/
+
+/* Switch to ParkingIQ keyspace */
+use ParkingIQ;
+
+/* Populate the parking lot data set */
+set QuarterlyAnalysis['fall_2010']['201']['monday_morning'] = '2';
+set QuarterlyAnalysis['fall_2010']['201']['monday_afternoon'] = '4';
+set QuarterlyAnalysis['fall_2010']['201']['monday_evening'] = '1';
+set QuarterlyAnalysis['fall_2010']['201']['tuesday_morning'] = '3';
+set QuarterlyAnalysis['fall_2010']['201']['tuesday_afternoon'] = '2';
+set QuarterlyAnalysis['fall_2010']['201']['tuesday_evening'] = '3';
+set QuarterlyAnalysis['fall_2010']['201']['wednesday_morning'] = '1';
+set QuarterlyAnalysis['fall_2010']['201']['wednesday_afternoon'] = '4';
+set QuarterlyAnalysis['fall_2010']['201']['wednesday_evening'] = '2';
+set QuarterlyAnalysis['fall_2010']['201']['thursday_morning'] = '3';
+set QuarterlyAnalysis['fall_2010']['201']['thursday_afternoon'] = '2';
+set QuarterlyAnalysis['fall_2010']['201']['thursday_evening'] = '1';
+set QuarterlyAnalysis['fall_2010']['201']['friday_morning'] = '2';
+set QuarterlyAnalysis['fall_2010']['201']['friday_afternoon'] = '5';
+set QuarterlyAnalysis['fall_2010']['201']['friday_evening'] = '4';
+
