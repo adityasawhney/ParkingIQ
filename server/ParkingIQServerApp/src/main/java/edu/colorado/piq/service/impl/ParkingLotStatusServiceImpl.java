@@ -65,8 +65,14 @@ public class ParkingLotStatusServiceImpl implements ParkingLotStatusService {
 		// Update the status in the provided structure
 		for (Row<String, String, String> row : result.get()) {
 			if (!row.getColumnSlice().getColumns().isEmpty()) {
-				int availableSpace = Integer.parseInt(row.getColumnSlice().getColumns().get(0).getValue());
-				parkingLotInfoMap.get(row.getKey()).setAvailableSpace(availableSpace);
+				String value = row.getColumnSlice().getColumns().get(0).getValue();
+				try {
+					int availableSpace = Integer.parseInt(value);
+					parkingLotInfoMap.get(row.getKey()).setAvailableSpace(availableSpace);
+				}
+				catch (NumberFormatException e) {
+					System.out.println(String.format("Corrupt data %1s found for key %2s", value, row.getKey()));
+				}
 			}
 			else {
 				System.out.println(String.format("No data found for key %1s", row.getKey()));
