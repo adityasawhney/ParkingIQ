@@ -4,12 +4,14 @@ import java.util.HashMap;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
+import edu.colorado.piq.model.ParkingLotInfo;
 import edu.colorado.piq.model.report.DayReport.Session;
 
 @XmlRootElement
 public class WeekReport {
 	private HashMap<Day, DayReport> weekReports = new HashMap<Day, DayReport>();
-
+	private ParkingLotInfo parkingLotInfo;
+	
 	public enum Day {
 		MONDAY,
 		TUESDAY,
@@ -44,5 +46,13 @@ public class WeekReport {
 
 	public void setWeekReports(HashMap<Day, DayReport> weekReports) {
 		this.weekReports = weekReports;
+	}
+
+	public ParkingLotInfo getParkingLotInfo() {
+		return parkingLotInfo;
+	}
+
+	public void setParkingLotInfo(ParkingLotInfo parkingLotInfo) {
+		this.parkingLotInfo = parkingLotInfo;
 	}
 }

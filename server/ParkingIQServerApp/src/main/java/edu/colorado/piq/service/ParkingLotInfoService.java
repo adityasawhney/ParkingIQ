@@ -17,10 +17,18 @@ import edu.colorado.piq.model.Zone;
 public interface ParkingLotInfoService {
 	
 	/**
-	 * Gets the parkling lot info.
+	 * Gets the parking lot info.
 	 *
 	 * @param zone the zone to look at
-	 * @return corresponding parkling lot info
+	 * @return corresponding parking lot info
 	 */
-	public abstract List<ParkingLotInfo> getParklingLotInfo(Zone zone);
+	public abstract List<ParkingLotInfo> getParkingLotInfo(Zone zone);
+	
+	/**
+	 * Gets the parking lot info.
+	 *
+	 * @param lotId the lot id to look at
+	 * @return corresponding parking lot info
+	 */
+	public abstract ParkingLotInfo getParkingLotInfo(int lotId);
 }

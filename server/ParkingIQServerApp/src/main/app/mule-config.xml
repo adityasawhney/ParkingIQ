@@ -44,8 +44,11 @@
 		</spring:bean>
 
 		<spring:bean id="parkingLotReportService" class="edu.colorado.piq.service.impl.ParkingLotReportServiceImpl">
-			<spring:constructor-arg>
+			<spring:constructor-arg index="0">
 				<spring:ref bean="cassandraConfig"/>
+			</spring:constructor-arg>
+			<spring:constructor-arg index="1">
+				<spring:ref bean="parkingLotInfoService"/>
 			</spring:constructor-arg>
 		</spring:bean>
 		
@@ -82,5 +85,10 @@
         		<spring-object bean="analysisReportResource"/>
          	</component>
      	</jersey:resources>
+     	
+     	<!-- Allow cross-domain requests to be handled -->
+       	<message-properties-transformer>
+			<add-message-property key="Access-Control-Allow-Origin" value="*"/>
+		</message-properties-transformer>
   	</flow> 
 </mule>

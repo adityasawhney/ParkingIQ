@@ -70,7 +70,7 @@ public class ParkingLotResource {
 		// Figure out the zone to which the given belongs
 		Zone zone = this.zoneDetectionService.identifyZone(location);
 		// Get all the parking lots which lie in the zone
-        List<ParkingLotInfo> parkingLots = this.parkingLotInfoService.getParklingLotInfo(zone);
+        List<ParkingLotInfo> parkingLots = this.parkingLotInfoService.getParkingLotInfo(zone);
         // Get the current status (available spaces) for each of those lots
         this.parkingLotStatusService.updateParkingLotStatus(parkingLots);
         

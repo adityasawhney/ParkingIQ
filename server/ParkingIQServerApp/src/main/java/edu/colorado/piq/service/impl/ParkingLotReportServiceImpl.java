@@ -15,14 +15,17 @@ import edu.colorado.piq.model.report.QuarterReport;
 import edu.colorado.piq.model.report.WeekReport;
 import edu.colorado.piq.model.report.DayReport.Session;
 import edu.colorado.piq.model.report.WeekReport.Day;
+import edu.colorado.piq.service.ParkingLotInfoService;
 import edu.colorado.piq.service.ParkingLotReportService;
 import edu.colorado.piq.util.CassandraUtil;
 
 public class ParkingLotReportServiceImpl implements ParkingLotReportService {
 	private CassandraConfig cassandraConfig;
+	private ParkingLotInfoService parkingLotInfoService;
 	
-	public ParkingLotReportServiceImpl(CassandraConfig config) {
+	public ParkingLotReportServiceImpl(CassandraConfig config, ParkingLotInfoService parkingLotInfoService) {
 		this.cassandraConfig = config;
+		this.parkingLotInfoService = parkingLotInfoService;
 	}
 	
 	@Override
@@ -55,6 +58,8 @@ public class ParkingLotReportServiceImpl implements ParkingLotReportService {
 				report.addDayReport(day, session, availableSpace);
 			}
 		}
+
+		report.setParkingLotInfo(parkingLotInfoService.getParkingLotInfo(lotId));
 
 		return report;
 	}

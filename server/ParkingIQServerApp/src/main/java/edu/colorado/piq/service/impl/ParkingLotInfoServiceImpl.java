@@ -11,6 +11,7 @@ import java.util.List;
 
 import me.prettyprint.cassandra.serializers.StringSerializer;
 import me.prettyprint.hector.api.Keyspace;
+import me.prettyprint.hector.api.beans.ColumnSlice;
 import me.prettyprint.hector.api.beans.OrderedRows;
 import me.prettyprint.hector.api.beans.Row;
 import me.prettyprint.hector.api.factory.HFactory;
@@ -42,7 +43,7 @@ public class ParkingLotInfoServiceImpl implements ParkingLotInfoService {
 	/* (non-Javadoc)
 	 * @see edu.colorado.piq.service.ParkingLotInfoService#getParklingLotInfo(edu.colorado.piq.model.Zone)
 	 */
-	public List<ParkingLotInfo> getParklingLotInfo(Zone zone) {
+	public List<ParkingLotInfo> getParkingLotInfo(Zone zone) {
 		List<ParkingLotInfo> lotInfos = new LinkedList<ParkingLotInfo>();
 
 		// Return empty list if zone is invalid
@@ -87,6 +88,39 @@ public class ParkingLotInfoServiceImpl implements ParkingLotInfoService {
 			}
 			lotInfos.add(lotInfo);
 		}
+
 		return lotInfos;
+	}
+
+	@Override
+	public ParkingLotInfo getParkingLotInfo(int lotId) {
+		String lotIdStr = Integer.toString(lotId);
+		Keyspace keyspace = CassandraUtil.Connect(cassandraConfig);
+		StringSerializer stringSerializer = StringSerializer.get();
+		QueryResult<ColumnSlice<String, String>> result = HFactory.createSliceQuery(
+				keyspace, 
+				stringSerializer, 
+				stringSerializer, 
+				stringSerializer)
+			.setColumnFamily(CF_ParkingLot.NAME) // from clause
+			.setKey(lotIdStr)
+			.setColumnNames(
+					CF_ParkingLot.Col.TYPE,
+					CF_ParkingLot.Col.LATITUDE, 
+					CF_ParkingLot.Col.LONGITUDE)
+			.execute();
+		
+		ParkingLotInfo lotInfo = null;
+		try {
+			lotInfo = ParkingLotInfo.create(
+					lotIdStr,
+					result.get().getColumnByName(CF_ParkingLot.Col.TYPE).getValue(),
+					result.get().getColumnByName(CF_ParkingLot.Col.LATITUDE).getValue(),
+					result.get().getColumnByName(CF_ParkingLot.Col.LONGITUDE).getValue());
+		} catch (NumberFormatException e) {
+			// Skip the bad records
+			System.out.println(String.format("Bad record for key %1s because %2s", lotIdStr, e.getMessage()));
+		}
+		return lotInfo;
 	}
 }
