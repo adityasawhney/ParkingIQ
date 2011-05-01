@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="hello">Hello World, main!</string>
+    <string name="app_name">testmuraliapp</string>
+    <string name="enter">ENTER</string>
+     <string name="user_locstring">USER LOCATION</string>
+     <string name="curr_locstring">CURRENT LOCATION</string>
+</resources>
