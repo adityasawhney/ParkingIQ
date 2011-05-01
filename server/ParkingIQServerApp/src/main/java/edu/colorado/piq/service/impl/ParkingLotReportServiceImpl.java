@@ -54,7 +54,7 @@ public class ParkingLotReportServiceImpl implements ParkingLotReportService {
 				String[] keys = column.getName().split("_");
 				Day day = Day.parseDay(keys[0]);
 				Session session = Session.parseSession(keys[1]);
-				int availableSpace = Integer.parseInt(column.getValue());
+				int availableSpace = (int) Float.parseFloat(column.getValue());
 				report.addDayReport(day, session, availableSpace);
 			}
 		}
