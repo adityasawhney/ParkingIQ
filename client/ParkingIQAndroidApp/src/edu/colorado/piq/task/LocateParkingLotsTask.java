@@ -58,12 +58,12 @@ public class LocateParkingLotsTask extends AsyncTask<String, Void, List<ParkingL
 		if (params.length == 2) {
 			float latitude = Float.parseFloat(params[0]);
 			float longitude = Float.parseFloat(params[1]);
-			lots = this.piqClient.searchParkingLots(latitude, longitude);
-			/*lots = new LinkedList<ParkingLotInfo>();
+			//lots = this.piqClient.searchParkingLots(latitude, longitude);
+			lots = new LinkedList<ParkingLotInfo>();
 			ParkingLotInfo p1 = new ParkingLotInfo(201, (float)40.00561, (float)-105.2705, 2);
 			ParkingLotInfo p2 = new ParkingLotInfo(203, (float)40.006185, (float)-105.271404, 4);
 			lots.add(p1);
-			lots.add(p2);*/
+			lots.add(p2);
 		}
 		return lots;
 	}
