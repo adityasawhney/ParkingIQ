@@ -8,8 +8,11 @@ package edu.colorado.piq.task;
 
 import java.util.List;
 
+import com.google.android.maps.OverlayItem;
+
 import android.os.AsyncTask;
 
+import edu.colorado.piq.ParkingIQBaseMapView;
 import edu.colorado.piq.server.ParkingIQClient;
 import edu.colorado.piq.server.ParkingIQClientImpl;
 import edu.colorado.piq.server.ParkingLotInfo;
@@ -25,13 +28,15 @@ public class LocateParkingLotsTask extends AsyncTask<String, Void, List<ParkingL
 	/** The URL where the server is located. */
 	private String piqServerUrl;
 	
+	private ParkingIQBaseMapView view;
 	/**
 	 * Instantiates a new locate parking lots task.
 	 *
 	 * @param serverUrl the server url
 	 */
-	public LocateParkingLotsTask(String serverUrl) {
+	public LocateParkingLotsTask(String serverUrl, ParkingIQBaseMapView view) {
 		this.piqServerUrl = serverUrl;
+		this.view = view;
 	}
 	
 	/* (non-Javadoc)
@@ -62,7 +67,7 @@ public class LocateParkingLotsTask extends AsyncTask<String, Void, List<ParkingL
 	 */
 	@Override
 	protected void onPostExecute(List<ParkingLotInfo> result) {
-		// TODO throw error if empty/invalid
-		System.out.println(result);
+		OverlayItem[] overlays = ParkingLotOverlays.compose(result);
+		this.view.showOverlay(overlays);
 	}
 }

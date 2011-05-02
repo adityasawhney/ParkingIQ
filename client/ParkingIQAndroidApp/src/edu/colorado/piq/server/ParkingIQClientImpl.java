@@ -33,10 +33,9 @@ public class ParkingIQClientImpl implements ParkingIQClient {
 	/* (non-Javadoc)
 	 * @see com.example.helloandroid.server.ParkingIQClient#searchParkingLots(float, float)
 	 */
-	@Override
 	public List<ParkingLotInfo> searchParkingLots(float latitude, float longitude) {
 		String searchUrl = String.format(
-				"%1s/parkinglots/?latitude=%2s&longitude=%3s",
+				"http://%1s/parkinglots/?latitude=%2s&longitude=%3s",
 				this.piqServiceUrl,
 				Float.toString(latitude),
 				Float.toString(longitude));
@@ -60,6 +59,7 @@ public class ParkingIQClientImpl implements ParkingIQClient {
 	private List<ParkingLotInfo> compileParkingLotResult(String result) {
 		List<ParkingLotInfo> lots = new LinkedList<ParkingLotInfo>();
 		
+		if (result == null) return lots;
 		try {
 			JSONObject jResult = new JSONObject(result);
 			if (jResult.optJSONArray("parkingLotInfo") != null) {
