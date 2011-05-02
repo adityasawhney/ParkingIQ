@@ -19,8 +19,8 @@ public final class ParkingLotOverlays {
 	public static OverlayItem[] compose(List<ParkingLotInfo> lots) {
 		OverlayItem[] overlayItems = new OverlayItem[lots.size()];
 		for (int i = 0; i < lots.size(); i++) {
-			int l1 = (int) (lots.get(i).getLatitude() * 1000);
-			int l2 = (int) (lots.get(i).getLongitude() * 1000);
+			int l1 = (int) (lots.get(i).getLatitude() * 1e6);
+			int l2 = (int) (lots.get(i).getLongitude() * 1e6);
 			overlayItems[i] = new OverlayItem(
 					new GeoPoint(l1, l2), 
 					Integer.toString(lots.get(i).getLotId()), 
